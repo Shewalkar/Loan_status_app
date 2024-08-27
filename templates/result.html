@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Application Form</title>
+</head>
+<body>
+    <h1>Loan Application Form</h1>
+    <form action="/submit" method="post">
+        <label for="gender">Gender:</label>
+        <select id="gender" name="Gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select><br><br>
+
+        <label for="married">Married:</label>
+        <select id="married" name="Married">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select><br><br>
+
+        <label for="applicantIncome">Applicant Income:</label>
+        <input type="number" id="applicantIncome" name="ApplicantIncome" required><br><br>
+
+        <label for="loanAmount">Loan Amount:</label>
+        <input type="number" id="loanAmount" name="LoanAmount" required><br><br>
+
+        <label for="creditHistory">Credit History:</label>
+        <select id="creditHistory" name="Credit_History">
+            <option value="1">1</option>
+            <option value="0">0</option>
+        </select><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
