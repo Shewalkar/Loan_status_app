@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route("/")
 def index():
     return render_template('result.html')
 
@@ -30,5 +30,7 @@ def submit():
                            loan_amount=loan_amount,
                            credit_history=credit_history)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
+
+if __name__ == "__main__":
+    app.run(debug = True)
