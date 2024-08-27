@@ -15,6 +15,13 @@ def submit():
     loan_amount = request.form.get('loan_amount')
     credit_history = request.form.get('credit_history')
     
+    # preprocess the request.json
+    # import model from pickle 
+    # [Gender, Married, ApplicantIncome, LoanAmount, Credit_History]
+    # pass this feature to model ( model will return 1 = "approve" or 0 = "not approve")
+    # "your loan application has been accepted/rejected"
+
+
     # Render the result HTML page with the submitted data
     return render_template('result.html',
                            gender=gender,
