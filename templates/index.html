@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Application Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script>
+        async function handleSubmit(event) {
+            event.preventDefault(); // Prevent form from submitting the default way
+            
+            let formData = new FormData(event.target);
+            let data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+            
+            let response = await fetch('/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+
+            let result = await response.json();
+
+            document.getElementById('result').textContent = result.message;
+        }
+    </script>
+</head>
+<body>
+    <h1>Loan Application Form</h1>
+    <form id="loanForm" onsubmit="handleSubmit(event)">
+        <label for="gender">Gender:</label>
+        <select id="gender" name="Gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select><br><br>
+
+        <label for="married">Married:</label>
+        <select id="married" name="Married">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select><br><br>
+
+        <label for="applicantIncome">Applicant Income:</label>
+        <input type="number" id="applicantIncome" name="ApplicantIncome" required><br><br>
+
+        <label for="loanAmount">Loan Amount:</label>
+        <input type="number" id="loanAmount" name="LoanAmount" required><br><br>
+
+        <label for="creditHistory">Credit History:</label>
+        <select id="creditHistory" name="Credit_History">
+            <option value="1">1</option>
+            <option value="0">0</option>
+        </select><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+    <h2 id="result"></h2>
+</body>
+</html>

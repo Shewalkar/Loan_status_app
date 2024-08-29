@@ -1,34 +1,49 @@
-from flask import Flask, render_template, request
+from flask import Flask, request, jsonify,render_template
+import pickle
 
 app = Flask(__name__)
+model_pickel = open("classifier.pkl", "rb")
+clf = pickle.load(model_pickel)
 
 @app.route('/')
 def index():
-    return render_template('result.html')
+    return render_template('index.html')
 
 @app.route('/submit', methods=['POST'])
 def submit():
-    # Extract form data
-    gender = request.form.get('gender')
-    married = request.form.get('married')
-    applicant_income = request.form.get('applicant_income')
-    loan_amount = request.form.get('loan_amount')
-    credit_history = request.form.get('credit_history')
+    data = request.get_json()
+
+    gender = data.get('Gender')
+    married = data.get('Married')
+    applicant_income = data.get('ApplicantIncome')
+    loan_amount = data.get('LoanAmount')
+    credit_history = data.get('Credit_History')
+
+    input_lis = []
     
-    # preprocess the request.json
-    # import model from pickle 
-    # [Gender, Married, ApplicantIncome, LoanAmount, Credit_History]
-    # pass this feature to model ( model will return 1 = "approve" or 0 = "not approve")
-    # "your loan application has been accepted/rejected"
+    if gender == "Male":
+        input_lis.append(1)
+    else:
+        input_lis.append(0)
+    
+    if married == "Yes":
+        input_lis.append(1)
+    else:
+        input_lis.append(0)
+    
+    input_lis.append(int(applicant_income))
+    input_lis.append(int(loan_amount))
+    input_lis.append(int(credit_history))
 
+    result = clf.predict([input_lis])
+    print("debug 0 ", result)
 
-    # Render the result HTML page with the submitted data
-    return render_template('result.html',
-                           gender=gender,
-                           married=married,
-                           applicant_income=applicant_income,
-                           loan_amount=loan_amount,
-                           credit_history=credit_history)
+    if result == 0:
+        pred = "Rejected"
+    else:
+        pred = "Approved"
+
+    return jsonify({'message': f'Your loan application has been {pred}'})
 
 if __name__ == '__main__':
     app.run(debug=True)
